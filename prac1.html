@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todoList_themeChange</title>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+            font-family:sans-serif;
+        }
+        .nav{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            background-color: rgb(214, 179, 248);
+            font-size: 30px;
+        }
+        .tog{
+            display: flex;
+            align-content: center;
+        }
+        .title{
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .tog p{
+            margin-right: 15px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        #toggleButton {
+            margin-top: 12px;
+            margin-bottom: 10px;
+            font-size: 20px;
+            background-color: rgb(248, 248, 192);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 80px;
+            height: 30px;
+            text-align: center;
+            color: black;
+            border-color: 2px rgb(88, 87, 87);
+        }
+        .main{
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .ip{
+            margin-bottom: 20px;
+        }
+        .main input{
+            border-radius: 10px;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        .main #at , .main #rt{
+            padding: 10px;
+            border-radius: 10px;
+            background-color: rgb(214, 179, 248);
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            margin-right: 10px;
+        }
+        .list{
+            background-color: rgb(214, 179, 248);
+            min-height: 60vh;
+            max-height: fit-content;
+            width: 500px;
+            border:none;
+            text-align: center;
+            border-radius: 20px;
+            font-size: 20px;
+        }
+        .list li{
+            list-style-type: none;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            cursor: pointer;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="nav">
+        <div class="title">
+            To Do List
+        </div>
+        <div class="tog">
+            <p id="mode">Light Mode</p>
+            <button id="toggleButton">☀️</button>
+        </div>
+    </div>
+    <div class="main">
+        <div class="ip">
+            <input type="text" id="taskInput" placeholder="Enter Task">
+            <button id="at" onClick="addTask()">Add</button>
+            <button id="rt" onClick="remTask()">Remove</button>
+        </div>
+        <div class="list">
+            <ul id="taskList">
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let arr=[];
+        document.getElementById("toggleButton").addEventListener("click", function() {
+        const button = this;
+        const body=document.body;
+        const atb=document.getElementById("at");
+        const rtb=document.getElementById("rt");
+        const li=document.querySelector(".list");
+        const nav=document.querySelector(".nav");
+        const p=document.getElementById("mode");
+        const inp=document.getElementById("taskInput");
+    
+        if (button.textContent==="☀️") {
+            body.style.backgroundColor="rgb(45, 45, 45)";
+            body.style.color="white"
+            button.style.backgroundColor="rgb(176, 176, 176)";
+            atb.style.backgroundColor="rgb(125, 101, 150)";
+            atb.style.color="White";
+            rtb.style.backgroundColor="rgb(125, 101, 150)";
+            rtb.style.color="White";
+            li.style.backgroundColor="rgb(125, 101, 150)";
+            nav.style.backgroundColor="rgb(125, 101, 150)";
+            inp.style.backgroundColor="rgb(176, 176, 176)";
+            button.textContent = "🌙";
+            p.innerHTML="Dark Mode";
+        } else {
+            body.style.backgroundColor="white";
+            body.style.color="black";
+            button.style.backgroundColor="rgb(248, 248, 192)";
+            atb.style.backgroundColor="rgb(214, 179, 248)";
+            atb.style.color="black";
+            rtb.style.backgroundColor="rgb(214, 179, 248)";
+            rtb.style.color="black";
+            li.style.backgroundColor="rgb(214, 179, 248)";
+            nav.style.backgroundColor="rgb(214, 179, 248)";
+            inp.style.backgroundColor="white";
+            button.textContent = "☀️";
+            p.innerHTML="Light Mode";
+        }
+        });
+
+        function addTask(){
+            const inp=document.getElementById("taskInput");
+            const taskList=document.getElementById("taskList");
+            const taskText=inp.value.trim();
+            if(!taskText) {
+                alert("Please enter a task");
+                return;
+            }            
+            console.log(taskText);
+            if(taskText){
+                arr.push(taskText);
+                const li=document.createElement("li");
+                li.textContent=taskText;
+                taskList.appendChild(li);
+                li.addEventListener("click", function() {
+                    if (li.style.textDecoration === "line-through") {
+                        li.style.textDecoration = "none";
+                        li.style.color = "black";
+                    } else {
+                        li.style.textDecoration = "line-through";
+                        li.style.color = "gray";
+                    }                
+                });
+                inp.value="";
+            }
+
+        }
+
+        function remTask(){
+            const inp=document.getElementById("taskInput");
+            const taskList=document.getElementById("taskList");
+            const taskText=inp.value.trim();
+            if(!taskText) {
+                alert("Please enter a task");
+                return;
+            }
+            console.log(taskText);
+            if(taskText){
+                let x=arr.indexOf(taskText);
+                if(x==-1){
+                    alert("Please enter a task");
+                    return;
+                }
+                console.log(arr);
+                arr.splice(x,1);
+                taskList.innerHTML="";
+                arr.map((value,key)=>{
+                        const li=document.createElement("li");
+                        li.textContent=value;
+                        taskList.appendChild(li);
+                })
+                inp.value="";
+            }
+        }
+
+    </script>
+</body>
+</html>
